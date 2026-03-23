@@ -1,0 +1,85 @@
+% 导言区：格式定义（完全匹配模板，无需修改）
+\documentclass[12pt,a4paper]{article} % 12号字，A4纸，英文报告基础文档类
+\usepackage{geometry} % 页面布局，页边距适配模板
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+\usepackage{graphicx} % 插入图片必备
+\usepackage{float} % 固定图片/表格位置（防止乱跑）
+\usepackage{booktabs} % 美化表格（可选，匹配模板简约风格）
+\usepackage{amsmath} % 公式支持（若需要加公式可保留）
+\renewcommand{\baselinestretch}{1.15} % 行间距，适配PDF阅读体验
+
+% 标题、作者、邮箱（模板固定格式，直接替换内容）
+\title{\bfseries \Large Report of Deep Learning for Natural Language Processing} % 修正拼写：Langauge → Language
+\author{Li Chao\\ % 作者名，\\换行写邮箱
+3358088428@qq.com} % 邮箱
+\date{} % 隐藏默认日期（原PDF无日期，若需要加则改为\date{\today}）
+
+\begin{document}
+\maketitle % 生成标题/作者/邮箱（核心命令，别删）
+
+% 摘要部分（匹配模板）
+\begin{abstract}
+% 【替换】此处写你的报告摘要，保持原模板的简洁风格
+This is a Report of Deep Learning for Natural Language Processing
+\end{abstract}
+
+% 1. Introduction 引言部分
+\section{Introduction}
+% 【替换】此处写你的引言内容，按原模板的行文风格补充
+ChatGPT is so popular and everyone is talking about it, all are talking about it but not coding for it …
+
+% 2. Methodology 方法部分（含M1/M2/M3子小节，完全匹配模板层级）
+\section{Methodology}
+There are models of my research. % 【替换】可保留或修改这句总述
+\subsection{M1: DL Model}
+% 【替换】此处写第一个模型的详细描述
+The description of the first model.
+\subsection{M2: NLP Model}
+% 【替换】此处写第二个模型的详细描述
+The description of the second model.
+\subsection{M3: DL-NLP Model}
+% 【替换】此处写第三个模型的详细描述
+The description of the third model.
+
+% 3. Experimental Studies 实验部分（含表格+图表，顺序匹配模板）
+\section{Experimental Studies}
+% 【替换】此处写实验总述
+The figures shows it works so well
+
+% 表格1（完全匹配原PDF的表格格式，居中+简约风格）
+\begin{table}[H] % H：固定表格在当前位置，别删
+    \centering % 表格居中
+    \caption{this is the table 1} % 【替换】表格标题
+    \begin{tabular}{c} % 单列表格，匹配原PDF
+        \toprule % 顶部横线（美化）
+        New Table \\
+        \midrule % 中间横线
+        M1 \\
+        M2 \\
+        M3 \\
+        \bottomrule % 底部横线
+    \end{tabular}
+    \label{tab:1} % 表格标签（交叉引用用，可选）
+\end{table}
+
+% 图1（过拟合折线图，匹配原PDF的图注+格式，先注释解决报错，后续加图片再取消注释）
+\begin{figure}[H] % H：固定图片在当前位置，别删
+    \centering % 图片居中
+    % \includegraphics[width=0.8\textwidth]{overfit_plot.png} % 【替换】图片路径+名称，后续加图片后取消注释
+    \caption{this is obviously overfit} % 修正拼写：obviosuly → obviously
+    \label{fig:1} % 图片标签（交叉引用用，可选）
+\end{figure}
+
+% 4. Conclusions 结论部分
+\section{Conclusions}
+% 【替换】此处写你的报告结论，按原模板的总结风格补充
+By good scientific writing in right format, it can express you idea of research clearly to others, therefore, we need to learn how to write a good report and even a paper.
+
+% 5. References 参考文献部分（匹配原PDF的编号格式[1][2]）
+\section{References}
+% 【替换】按原模板的格式补充参考文献，新增条目按[3][4]依次排列
+[1] Zenchang Qin and Lao Wang (2023), How to learn deep learning? Journal of Paper Writing, Vol. 3: 23: pp. 1-12.
+\\ % 换行分隔不同参考文献
+[2] … % 【替换】补充你的第二篇参考文献，格式匹配[1]
+
+\end{document}
