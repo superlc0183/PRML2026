@@ -1,0 +1,128 @@
+% 导言区：格式定义
+\documentclass[12pt,a4paper]{article} 
+\usepackage{geometry} 
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+\usepackage{graphicx} 
+\usepackage{float} 
+\usepackage{booktabs} 
+\usepackage{amsmath} 
+\usepackage{amssymb}
+\renewcommand{\baselinestretch}{1.15} 
+
+% 引入超链接宏包，并隐藏难看的默认边框
+\usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue]{hyperref}
+
+% 强制所有段落首行缩进
+\usepackage{indentfirst}
+\setlength{\parindent}{2em} 
+
+% ====== 目录与标题格式优化 ======
+\usepackage{titlesec}
+% 强制 section 和 subsection 标题居中、加粗，并启用自动编号
+\titleformat{\section}[block]{\large\bfseries\filcenter}{\thesection.}{0.5em}{}
+\titleformat{\subsection}[block]{\normalsize\bfseries\filcenter}{\thesubsection}{0.5em}{}
+
+% 修改参考文献默认标题格式，使其与其他章节标题风格一致
+\renewcommand{\refname}{\large\bfseries\filcenter References}
+
+% 文章主标题、作者、邮箱、代码链接、日期
+\title{\textbf{\Large Comprehensive Study of Regression Algorithms: From Linear Optimization to Probabilistic and Deep Learning Frameworks}} 
+\author{
+    Li Chao \\ 
+    \href{mailto:superlc0183@gmail.com}{superlc0183@gmail.com} \\
+    \vspace{0.1cm} \\
+    \normalsize \textbf{Code:} \url{https://github.com/superlc0183/PRML2026}
+} 
+\date{March 24, 2026} 
+
+\begin{document}
+\maketitle 
+
+\begin{abstract}
+Regression analysis is critical in modeling continuous relationships within statistical learning. In this report, utilizing the \textit{Data4Regression} dataset, we systematically evaluate an extensive array of regression paradigms. We begin by verifying the theoretical equivalence of linear hypotheses optimized via Ordinary Least Squares, Gradient Descent, and Newton's Method. Due to profound linear underfitting, we transition into non-linear architectures encompassing Polynomial Expansion, Bayesian Probabilistic Regression, Kernel Methods (RBF Kernel Ridge and Support Vector Regression), and modern Deep Learning (Multi-Layer Perceptron). Through rigorous mathematical derivation and comparative analysis of Mean Squared Error (MSE) and $R^2$ metrics, we establish that Kernel methods optimally balance model capacity and generalization, significantly outperforming both rigid linear assumptions and deterministic polynomial approaches.
+\end{abstract}
+
+% ====== 目录独占一页 ======
+\newpage
+\renewcommand{\contentsname}{\large\bfseries\filcenter Contents} % 将目录名改为 Contents
+\tableofcontents
+\newpage
+% ============================
+
+\section{Introduction}
+The essence of Pattern Recognition and Machine Learning (PRML) lies in constructing models capable of learning from finite data while avoiding the catastrophic extremes of underfitting (high bias) and overfitting (high variance). 
+
+In this comprehensive assignment, we investigate a two-dimensional dataset exhibiting distinct non-linear, periodic fluctuations. Our methodology is progressive: we first apply linear regression using three optimization strategies to observe baseline convergence. Recognizing the severe structural limitations of linear models on curved data, we elevate our hypothesis space. We introduce deterministic polynomial mapping, followed by Bayesian probabilistic treatment to quantify uncertainty. Furthermore, we deploy advanced non-parametric approaches, specifically Radial Basis Function (RBF) Kernel Ridge Regression and Support Vector Regression (SVR), highlighting the power of mapping data into infinite-dimensional spaces. Finally, a Multi-Layer Perceptron (MLP) is constructed as a neural network baseline. This report analytically documents the transition across these distinct machine learning eras.
+
+\section{Theoretical Methodology}
+
+\subsection{Linear Optimization: OLS, GD, and Newton's Method}
+For a target vector $Y$ and design matrix $X$, the objective is to minimize the empirical MSE loss $L(w) = \frac{1}{N} \|Xw - Y\|^2$. 
+\begin{itemize}
+    \item \textbf{Ordinary Least Squares (OLS):} Provides a closed-form analytical solution by resolving the normal equations, yielding $w^* = (X^T X)^{-1} X^T Y$.
+    \item \textbf{Gradient Descent (GD):} Updates weights iteratively $w_{t+1} = w_t - \alpha \nabla L(w_t)$. Since the MSE loss is globally convex, GD guarantees convergence to the global optimum $w^*$.
+    \item \textbf{Newton's Method:} Utilizes the second-order Hessian matrix $H = \frac{2}{N} X^T X$. The update rule $w_{t+1} = w_t - H^{-1} \nabla L(w_t)$ converges optimally in a single iteration for quadratic loss surfaces.
+\end{itemize}
+
+\subsection{Polynomial Expansion and Bayesian Regression}
+To model non-linearity, we map inputs into a polynomial space $\phi(x) = [1, x, \dots, x^M]^T$. Standard polynomial regression is prone to overfitting. \textbf{Bayesian Linear Regression} addresses this by imposing a Gaussian prior $p(w|\alpha) = \mathcal{N}(w|0, \alpha^{-1}I)$ over the weights. By applying Bayes' theorem, the posterior $p(w|Y) \propto p(Y|w) p(w)$ is obtained. Instead of point estimates, Bayesian inference predicts a full probability distribution with uncertainty bounds, naturally penalizing overly complex models via the marginal likelihood mechanism.
+
+\subsection{Advanced Kernel Methods: KRR and SVR}
+Explicit high-dimensional mapping is computationally constrained. Kernel methods utilize a kernel function, such as the Gaussian RBF $K(x, x') = \exp(-\gamma \|x - x'\|^2)$, to compute inner products in a Reproducing Kernel Hilbert Space (RKHS).
+\begin{itemize}
+    \item \textbf{Kernel Ridge Regression (KRR):} Combines $L_2$ regularization with kernel mapping, smoothly interpolating the entire dataset globally.
+    \item \textbf{Support Vector Regression (SVR):} Introduces the Vapnik $\epsilon$-insensitive loss function, completely ignoring errors smaller than $\epsilon$. This mechanism ensures that the model is solely constructed upon a sparse subset of support vectors, yielding high robustness against stochastic noise and outliers.
+\end{itemize}
+
+\subsection{Multi-Layer Perceptron (Deep Learning)}
+As a universal approximator, the MLP utilizes dense hidden layers integrated with non-linear activation functions (e.g., ReLU). The transformation $h = \text{ReLU}(W x + b)$ enables the network to learn feature representations entirely driven by data, optimized via backpropagation.
+
+\section{Experimental Studies and Analysis}
+
+Table \ref{tab:metrics} systematically documents the exact MSE and $R^2$ performance on both training and test partitions based on our algorithmic implementations. 
+
+\begin{table}[H] 
+    \centering 
+    \caption{\textbf{Comprehensive Evaluation of 6 Regression Frameworks}} 
+    \begin{tabular}{lccc} 
+        \toprule 
+        \textbf{Algorithm Framework} & \textbf{Training MSE} & \textbf{Test MSE} & \textbf{Test $R^2$} \\
+        \midrule 
+        Linear (LS / GD / Newton) & 0.6134 & 0.5950 & 0.1329 \\
+        Polynomial Regression (Deg=6) & 0.5252 & 0.5151 & 0.2494 \\
+        Bayesian Polynomial Regression & 0.5439 & 0.5311 & 0.2260 \\
+        \textbf{Kernel Ridge Reg (RBF)} & \textbf{0.3079} & \textbf{0.3221} & \textbf{0.5307} \\
+        \textbf{Support Vector Reg (RBF)} & 0.3340 & 0.3387 & 0.5065 \\
+        Multi-Layer Perceptron (MLP) & 0.3802 & 0.4072 & 0.4067 \\
+        \bottomrule 
+    \end{tabular}
+    \label{tab:metrics} 
+\end{table}
+
+\textbf{Analysis of Results:}\\
+\noindent 1. \textbf{Linear Consensus:} As theorized, LS, GD, and Newton's Method collapsed to the identical test MSE of 0.5950, severely underfitting the inherent curve. \\
+\noindent 2. \textbf{Probabilistic Regularization:} While standard Polynomial and Bayesian regressions yielded similar predictive means (MSE $\approx$ 0.51 - 0.53), the Bayesian approach notably smoothed outlier variances and provided continuous confidence intervals. \\
+\noindent 3. \textbf{Dominance of Kernel Methods:} The RBF-based KRR and SVR decisively outperformed all paradigms. KRR achieved the pinnacle $R^2$ score of 0.5307. SVR followed closely with remarkable generalization stability. \\
+\noindent 4. \textbf{MLP Characteristics:} The neural network successfully mapped non-linearities but proved slightly less data-efficient on this small 1D dataset compared to kernel mechanisms, emphasizing that deep learning requires massive data scaling to surpass mathematical kernel representations.
+
+\begin{figure}[H] 
+    \centering 
+    \includegraphics[width=1\textwidth]{fit_results.png}
+    \caption{\textbf{Visualization: Statistical/Probabilistic Models (Left) vs. Kernel/Deep Models (Right)}}
+    \label{fig:plot}
+\end{figure}
+
+\section{Conclusions}
+This extensive empirical study illustrates the trajectory of regression analysis in PRML. Linear optimization algorithms, irrespective of their derivative orders, are inherently bound by their hypothesis constraints. Deterministic polynomial basis functions trigger overfitting risks, which Bayesian inference gracefully curtails via prior distribution integration. Ultimately, for low-dimensional non-linear datasets, explicit deep neural architectures (MLP) are sub-optimal compared to implicit Hilbert space mappings. RBF Kernel Ridge Regression and Support Vector Regression assert themselves as the most mathematically elegant and practically robust frameworks, perfectly resolving the bias-variance dichotomy.
+
+\newpage
+% 强制将参考文献加入目录
+\addcontentsline{toc}{section}{References}
+\begin{thebibliography}{99}
+    \bibitem{bishop2006} Bishop, C. M. (2006). \textit{Pattern Recognition and Machine Learning}. Springer.
+    \bibitem{hastie2009} Hastie, T., Tibshirani, R., and Friedman, J. (2009). \textit{The Elements of Statistical Learning: Data Mining, Inference, and Prediction}. Springer Science \& Business Media.
+    \bibitem{smola2004} Smola, A. J., \& Schölkopf, B. (2004). \textit{A tutorial on support vector regression}. Statistics and Computing, 14(3), 199-222.
+    \bibitem{goodfellow2016} Goodfellow, I., Bengio, Y., and Courville, A. (2016). \textit{Deep Learning}. MIT Press.
+\end{thebibliography}
+
+\end{document}
