@@ -5,10 +5,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, confusion_matrix
-
-# ==========================================
-# 1. 修正后的数据生成函数
-# ==========================================
+# 1. 数据生成函数
 def make_moons_3d(n_samples=500, noise=0.1):
     n_samples_per_class = int(n_samples / 2)
     t = np.linspace(0, 2 * np.pi, n_samples_per_class)
@@ -24,9 +21,7 @@ def make_moons_3d(n_samples=500, noise=0.1):
 X_train, y_train = make_moons_3d(n_samples=1000, noise=0.2)
 X_test, y_test = make_moons_3d(n_samples=500, noise=0.2)
 
-# ==========================================
 # 2. 初始化分类器
-# ==========================================
 models = {
     "Decision Tree": DecisionTreeClassifier(random_state=42),
     "AdaBoost + DT": AdaBoostClassifier(
@@ -47,9 +42,7 @@ for name, model in models.items():
     y_pred = model.predict(X_test)
     predictions[name] = y_pred
 
-# ==========================================
 # 3. 绘制并保存图片：混淆矩阵对比图
-# ==========================================
 fig, axes = plt.subplots(1, 5, figsize=(25, 4))
 fig.suptitle('Confusion Matrices of Different Classifiers', fontsize=16)
 
@@ -65,9 +58,7 @@ plt.tight_layout()
 plt.savefig('confusion_matrices.png', dpi=300)
 plt.close() # 关闭当前图，准备画下一张
 
-# ==========================================
 # 4. 绘制并保存图片：错误点可视化 (选 Linear 和 RBF 对比)
-# ==========================================
 fig = plt.figure(figsize=(14, 6))
 fig.suptitle('Visualization of Misclassified Points (Test Set)', fontsize=16)
 
